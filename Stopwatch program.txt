@@ -1,0 +1,161 @@
+#STOPWATCH
+tkinter is a graphical user interface (GUI) library in python.
+It provides powerful object-oriented interface to the Tk GUI toolk and easy way for creating graphical user interface applications.
+Tkinter provides access to the geometric configuration of the widgets.
+Three geometry manager classes are:
+1. pack() method
+2. grid() method
+3. place() method
+There are widgets which can be used in tkinter are:
+1. Button
+2. Canvas
+3. Frame
+4. Label
+5. Menu
+6. Text
+8. Message
+9. Listbox
+10. Scale
+
+
+#Example - 1
+
+from tkinter import *
+import time
+
+def Function():
+    global base
+    base = Tk()
+    base.title("Stopwatch")
+    width = 500
+    length = 300
+    display_width = base.winfo_screenwidth()
+    display_length = base.winfo_screenheight()
+    a = (display_width / 2) - (width / 2)
+    b = (display_length / 2) - (length / 2)
+    base.geometry("%dx%d+%d+%d" % (width, length, a, b))
+    peak = Frame(base, width=550)
+    peak.pack(side=TOP)
+    timmer = Stopwatch(base)
+    timmer.pack(side=TOP)
+    tail = Frame(base, width=550)
+    tail.pack(side=BOTTOM)
+    Start = Button(tail, text='Start', command=timmer.Start, width=15, height=4)
+    Start.pack(side=LEFT)
+    Stop = Button(tail, text='Stop', command=timmer.Stop, width=15, height=4)
+    Stop.pack(side=LEFT)
+    Reset = Button(tail, text='Reset', command=timmer.Reset, width=15, height=4)
+    Reset.pack(side=LEFT)
+    end = Button(tail, text='Close', command=timmer.Exit, width=15, height=4)
+    end.pack(side=LEFT)
+    label = Label(peak, text="STOPWATCH", font=("times", 24), fg="black", bg="white")
+    label.pack(fill=X)
+    base.config(bg="black")
+    base.mainloop()
+
+class Stopwatch(Frame):
+    def __init__(self, node=None, **kw):
+        Frame.__init__(self, node, kw)
+        self.start = 0.0
+        self.next = 0.0
+        self.onRunning = 0
+        self.timestart = StringVar()
+        self.widget()
+
+    def widget(self):
+        Text = Label(self, textvariable=self.timestart, font=("Times 25 bold", 75), fg="red", bg="white")
+        self.Set(self.next)
+        Text.pack(fill=X, expand=NO, pady=2, padx=2)
+
+    def Updater(self):
+        self.next = time.time() - self.start
+        self.Set(self.next)
+        self.timer = self.after(50, self.Updater)
+
+    def Set(self, nextElap):
+        minutes = int(nextElap / 60)
+        seconds = int(nextElap - minutes * 60.0)
+        miliSeconds = int((nextElap - minutes * 60.0 - seconds) * 100)
+        self.timestart.set('%02d:%02d:%02d' % (minutes, seconds, miliSeconds))
+
+    def Start(self):
+        if not self.onRunning:
+            self.start = time.time() - self.next
+            self.Updater()
+            self.onRunning = 1
+
+    def Stop(self):
+        if self.onRunning:
+            self.after_cancel(self.timer)
+            self.next = time.time() - self.start
+            self.Set(self.next)
+            self.onRunning = 0
+
+    def Exit(self):
+        base.destroy()
+        exit()
+
+    def Reset(self):
+        self.start = time.time()
+        self.next = 0.0
+        self.Set(self.next)
+
+
+if __name__ == '__main__':
+    Function()
+-----------------------------------------------------------------------------------------------------------------
+#Example - 2
+
+import tkinter as tink
+count = -1
+run = False
+def var_name(mark):
+    def value():
+        if run:
+            global count
+            if count == -1:
+                show = "Starting"
+            else:
+                show = str(count)
+            mark['text'] = show
+            mark.after(1000, value)
+            count += 1
+    value()
+
+def Start(mark):
+    global run
+    run = True
+    var_name(mark)
+    start['state'] = 'disabled'
+    stop['state'] = 'normal'
+    reset['state'] = 'normal'
+
+def Stop():
+    global run
+    start['state'] = 'normal'
+    stop['state'] = 'disabled'
+    reset['state'] = 'normal'
+    run = False
+
+def Reset(label):
+    global count
+    count = -1
+    if run == False:
+        reset['state'] = 'disabled'
+        mark['text'] = 'Welcome'
+    else:
+        mark['text'] = 'Start'
+
+
+base = tink.Tk()
+base.title("STOPWATCH")
+base.minsize(width=300, height=200)
+mark = tink.Label(base, text="Welcome", fg="blue", font="Times 25 bold",bg="white")
+mark.pack()
+start = tink.Button(base, text='Start',width=25, command=lambda: Start(mark))
+stop = tink.Button(base, text='Stop', width=25, state='disabled', command=Stop)
+reset = tink.Button(base, text='Reset',width=25, state='disabled', command=lambda: Reset(mark))
+start.pack()
+stop.pack()
+reset.pack()
+base.mainloop()
