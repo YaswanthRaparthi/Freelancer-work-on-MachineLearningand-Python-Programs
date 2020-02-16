@@ -1,0 +1,255 @@
+#Hangman game
+#In this game, there are words present, out of which the interpreter will choose 1 random word.
+#The user first has to input their names and then, will be asked to guess any alphabet.
+#If the random word contains that alphabet, it will be shown as the output(with correct placement) else the program will ask you to guess another alphabet.
+#User will be given few turns(can be changed accordingly) to guess the complete word.
+#In the hangman game the user has to guess the correct words to save a life
+
+import random
+
+class HangMan(object):
+    # Hangman game
+    dangle = []
+    dangle.append(' +---+')
+    dangle.append(' |   |')
+    dangle.append('     |')
+    dangle.append('     |')
+    dangle.append('     |')
+    dangle.append('     |')
+    dangle.append('=======')
+
+    lad = {}
+    lad[0] = [' 0   |']
+    lad[1] = [' 0   |', ' |   |']
+    lad[2] = [' 0   |', '/|   |']
+    lad[3] = [' 0   |', '/|\\  |']
+    lad[4] = [' 0   |', '/|\\  |', '/    |']
+    lad[5] = [' 0   |', '/|\\  |', '/ \\  |']
+
+    pics = []
+
+    states = ''' gujarat kerala karnataka westbengal maharashtra uttarakhand odisha tamilnadu
+                bihar telangana rajasthan chhattisgarh assam jharkhand haryana andhrapradesh 
+                punjab madhyapradesh goa newdelhi ladakh jammukashmir arunachalpradesh manipur 
+                nagaland mizoram tripura meghalaya sikkim '''.split()
+
+    design = '-_-*\'*-_-*\'*-_-*\'*-_-*\'*-_-*\'*-_-*\'*-_-*\'*-_-*\'*-_-*\'*-_-*\''
+
+    def __init__(self, *args, **kwargs):
+        m, n = 2, 0
+        self.pics.append(self.dangle[:])
+        for ls in self.lad.values():
+            pic, n = self.dangle[:], 0
+            for i in ls:
+                pic[m + n] = i
+                n += 1
+            self.pics.append(pic)
+
+    def Select_Word(self):
+        return self.states[random.randint(0, len(self.states) - 1)]
+
+    def print_pic(self, x, wordLen):
+        for slash in self.pics[x]:
+            print(slash)
+
+    def askAndEvaluate(self, term, result, missed):
+        guess = input()
+        if guess == None or len(guess) != 1 or (guess in result) or (guess in missed):
+            return None, False
+        m = 0
+        right = guess in term
+        for i in term:
+            if i == guess:
+                result[m] = i
+            m += 1
+        return guess, right
+
+    def info(self, info):
+        ln = len(self.design)
+        print(self.design[:-3])
+        print(info)
+        print(self.design[3:])
+
+    def process(self):
+        name = input("Enter your name: ")
+        print("Good Luck ,",name)
+        print('Welcome to Hangman')
+        term = list(self.Select_Word())
+        outcome = list('*' * len(term))
+        print('The word is: ', outcome)
+        success, m, missed = False, 0, []
+        while m < len(self.pics) - 1:
+            print('Guess the word: ', end='')
+            guess, right = self.askAndEvaluate(term, outcome, missed)
+            if guess == None:
+                print('You have already entered this character.')
+                continue
+            print(''.join(outcome))
+            if outcome == term:
+                self.info('Congratulations ! You saved a life :)')
+                success = True
+                break
+            if not right:
+                missed.append(guess)
+                m += 1
+            self.print_pic(m, len(term))
+            print('Missed characters: ', missed)
+
+        if not success:
+            self.info('The word was \'' + ''.join(term) + '\' ! You just killed a man')
+
+
+a = HangMan().process()
+
+
+#output
+Enter your name: yash
+Good Luck , yash
+Welcome to Hangman
+The word is:  ['*', '*', '*', '*', '*']
+Guess the word: m
+****m
+ +---+
+ |   |
+     |
+     |
+     |
+     |
+=======
+Missed characters:  []
+Guess the word: i
+****m
+ +---+
+ |   |
+ 0   |
+     |
+     |
+     |
+=======
+Missed characters:  ['i']
+Guess the word: k
+****m
+ +---+
+ |   |
+ 0   |
+ |   |
+     |
+     |
+=======
+Missed characters:  ['i', 'k']
+Guess the word: a
+a**am
+ +---+
+ |   |
+ 0   |
+ |   |
+     |
+     |
+=======
+Missed characters:  ['i', 'k']
+Guess the word: s
+assam
+-_-*'*-_-*'*-_-*'*-_-*'*-_-*'*-_-*'*-_-*'*-_-*'*-_-*'*-_
+Congratulations ! You saved a life :)
+*'*-_-*'*-_-*'*-_-*'*-_-*'*-_-*'*-_-*'*-_-*'*-_-*'*-_-*'
+-------------------------------------------------------------------
+
+#output 2
+
+Enter your name: yash
+Good Luck , yash
+Welcome to Hangman
+The word is:  ['*', '*', '*', '*', '*', '*', '*']
+Guess the word: a
+***a*a*
+ +---+
+ |   |
+     |
+     |
+     |
+     |
+=======
+Missed characters:  []
+Guess the word: n
+***a*a*
+ +---+
+ |   |
+ 0   |
+     |
+     |
+     |
+=======
+Missed characters:  ['n']
+Guess the word: s
+***a*a*
+ +---+
+ |   |
+ 0   |
+ |   |
+     |
+     |
+=======
+Missed characters:  ['n', 's']
+Guess the word: t
+***a*at
+ +---+
+ |   |
+ 0   |
+ |   |
+     |
+     |
+=======
+Missed characters:  ['n', 's']
+Guess the word: r
+***arat
+ +---+
+ |   |
+ 0   |
+ |   |
+     |
+     |
+=======
+Missed characters:  ['n', 's']
+Guess the word: m
+***arat
+ +---+
+ |   |
+ 0   |
+/|   |
+     |
+     |
+=======
+Missed characters:  ['n', 's', 'm']
+Guess the word: o
+***arat
+ +---+
+ |   |
+ 0   |
+/|\  |
+     |
+     |
+=======
+Missed characters:  ['n', 's', 'm', 'o']
+Guess the word: i
+***arat
+ +---+
+ |   |
+ 0   |
+/|\  |
+/    |
+     |
+=======
+Missed characters:  ['n', 's', 'm', 'o', 'i']
+Guess the word: e
+***arat
+ +---+
+ |   |
+ 0   |
+/|\  |
+/ \  |
+     |
+=======
+Missed characters:  ['n', 's', 'm', 'o', 'i', 'e']
+-_-*'*-_-*'*-_-*'*-_-*'*-_-*'*-_-*'*-_-*'*-_-*'*-_-*'*-_
+The word was 'gujarat' ! You just killed a man
+*'*-_-*'*-_-*'*-_-*'*-_-*'*-_-*'*-_-*'*-_-*'*-_-*'*-_-*'
