@@ -1,0 +1,432 @@
+#Contingency Table
+#A table showing the distribution of one variable in rows and another in columns.
+#The intersection of the row and the column of a contingency table is called cell
+#it is used to study the correlation between the two variables.
+#A contingency table is a multiway table which describes a dataset in which each observation belongs to one category for each of several variables. 
+#Contingency Table is a technique for exploring two or even more variables. 
+#It is basically a tally of counts between two or more categorical variables.
+#Contingency tables are also called crosstabs or two-way tables,used in statistics to summarize the relationship between several categorical variables. 
+#A contingency table is a special type of frequency distribution table.
+#The contingency coefficient is a coefficient of association which tells whether two variables or datasets are independent or dependent of each other,It is also known as Pearson's Coefficient 
+---------------------------------------------------------------------------------------------------------------------------------------------------
+#Example - 1
+
+import numpy as np
+import pandas as pd
+datainput = pd.read_csv("50_Startups.csv")		#https://www.kaggle.com/farhanmd29/50-startups
+
+print (datainput.head(5))
+#output
+   R&D Spend  Administration  Marketing Spend       State     Profit
+0  165349.20       136897.80        471784.10    New York  192261.83
+1  162597.70       151377.59        443898.53  California  191792.06
+2  153441.51       101145.55        407934.54     Florida  191050.39
+3  144372.41       118671.85        383199.62    New York  182901.99
+4  142107.34        91391.77        366168.42     Florida  166187.94
+
+print(datainput.describe())
+#output
+ R&D Spend  Administration  Marketing Spend         Profit
+count      50.000000       50.000000        50.000000      50.000000
+mean    73721.615600   121344.639600    211025.097800  112012.639200
+std     45902.256482    28017.802755    122290.310726   40306.180338
+min         0.000000    51283.140000         0.000000   14681.400000
+25%     39936.370000   103730.875000    129300.132500   90138.902500
+50%     73051.080000   122699.795000    212716.240000  107978.190000
+75%    101602.800000   144842.180000    299469.085000  139765.977500
+max    165349.200000   182645.560000    471784.100000  192261.830000
+
+print(datainput.info())
+#output
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 50 entries, 0 to 49
+Data columns (total 5 columns):
+R&D Spend          50 non-null float64
+Administration     50 non-null float64
+Marketing Spend    50 non-null float64
+State              50 non-null object
+Profit             50 non-null float64
+dtypes: float64(4), object(1)
+memory usage: 1.8+ KB
+None
+
+print(datainput.dtypes)
+#output
+R&D Spend          float64
+Administration     float64
+Marketing Spend    float64
+State               object
+Profit             float64
+dtype: object
+
+datainput_val = pd.crosstab(datainput['R&D Spend'],datainput['Profit'],margins = False)
+print(datainput_val)
+#output
+Profit     14681.40   35673.41   42559.73   ...  191050.39  191792.06  192261.83
+R&D Spend                                   ...                                 
+0.00               1          0          1  ...          0          0          0
+542.05             0          1          0  ...          0          0          0
+1000.23            0          0          0  ...          0          0          0
+1315.46            0          0          0  ...          0          0          0
+15505.73           0          0          0  ...          0          0          0
+20229.59           0          0          0  ...          0          0          0
+22177.74           0          0          0  ...          0          0          0
+23640.93           0          0          0  ...          0          0          0
+27892.92           0          0          0  ...          0          0          0
+28663.76           0          0          0  ...          0          0          0
+28754.33           0          0          0  ...          0          0          0
+38558.51           0          0          0  ...          0          0          0
+44069.95           0          0          0  ...          0          0          0
+46014.02           0          0          0  ...          0          0          0
+[49 rows x 50 columns]
+
+datainput_val = pd.crosstab(datainput['Administration'],datainput['Profit'],margins = False)
+print(datainput_val)
+#output
+Profit          14681.40   35673.41   ...  191792.06  192261.83
+Administration                        ...                      
+51283.14                0          0  ...          0          0
+51743.15                0          1  ...          0          0
+65947.93                0          0  ...          0          0
+82982.09                0          0  ...          0          0
+84710.77                0          0  ...          0          0
+85047.44                0          0  ...          0          0
+91391.77                0          0  ...          0          0
+91790.61                0          0  ...          0          0
+96189.63                0          0  ...          0          0
+99281.34                0          0  ...          0          0
+99814.71                0          0  ...          0          0
+101145.55               0          0  ...          0          0
+103057.49               0          0  ...          0          0
+105751.03               0          0  ...          0          0
+116983.80               1          0  ...          0          0
+[50 rows x 50 columns]
+
+datainput_val = pd.crosstab(datainput['Marketing Spend'],datainput['Profit'],margins = False)
+print(datainput_val)
+#output
+Profit           14681.40   35673.41   ...  191792.06  192261.83
+Marketing Spend                        ...                      
+0.00                     0          1  ...          0          0
+1903.93                  0          0  ...          0          0
+28334.72                 0          0  ...          0          0
+35534.17                 0          0  ...          0          0
+45173.06                 1          0  ...          0          0
+46085.25                 0          0  ...          0          0
+88218.23                 0          0  ...          0          0
+91131.24                 0          0  ...          0          0
+107138.38                0          0  ...          0          0
+118148.20                0          0  ...          0          0
+127716.82                0          0  ...          0          0
+134050.07                0          0  ...          0          0
+137962.62                0          0  ...          0          0
+140574.81                0          0  ...          0          0
+[48 rows x 50 columns]
+
+datainput_val = pd.crosstab(datainput['State'],datainput['Profit'],margins = False)
+print(datainput_val)
+#output
+Profit      14681.40   35673.41   42559.73   ...  191050.39  191792.06  192261.83
+State                                        ...                                 
+California          1          0          1  ...          0          1          0
+Florida             0          0          0  ...          1          0          0
+New York            0          1          0  ...          0          0          1
+[3 rows x 50 columns]
+
+datainput_val = pd.crosstab([datainput.Administration, datainput.State],datainput.Profit, margins = False)
+print(datainput_val)
+#output
+Profit                     14681.40   35673.41   ...  191792.06  192261.83
+Administration State                             ...                      
+51283.14       California          0          0  ...          0          0
+51743.15       New York            0          1  ...          0          0
+65947.93       New York            0          0  ...          0          0
+82982.09       California          0          0  ...          0          0
+84710.77       Florida             0          0  ...          0          0
+85047.44       New York            0          0  ...          0          0
+91391.77       Florida             0          0  ...          0          0
+91790.61       California          0          0  ...          0          0
+96189.63       California          0          0  ...          0          0
+99281.34       New York            0          0  ...          0          0
+99814.71       New York            0          0  ...          0          0
+101145.55      Florida             0          0  ...          0          0
+103057.49      Florida             0          0  ...          0          0
+105751.03      Florida             0          0  ...          0          0
+[50 rows x 50 columns]
+---------------------------------------------------------------------------------------------------------------------------------------------------
+#Example- 2
+
+import numpy as np
+import pandas as pd
+datainput = pd.read_csv("iris.csv")			#https://www.kaggle.com/uciml/iris
+
+print (datainput.head(5))
+#output
+ SepalLengthCm  SepalWidthCm  PetalLengthCm  PetalWidthCm      Species
+0            5.1           3.5            1.4           0.2  Iris-setosa
+1            4.9           3.0            1.4           0.2  Iris-setosa
+2            4.7           3.2            1.3           0.2  Iris-setosa
+3            4.6           3.1            1.5           0.2  Iris-setosa
+4            5.0           3.6            1.4           0.2  Iris-setosa
+
+print(datainput.describe())
+#output
+  SepalLengthCm  SepalWidthCm  PetalLengthCm  PetalWidthCm
+count     150.000000    150.000000     150.000000    150.000000
+mean        5.843333      3.054000       3.758667      1.198667
+std         0.828066      0.433594       1.764420      0.763161
+min         4.300000      2.000000       1.000000      0.100000
+25%         5.100000      2.800000       1.600000      0.300000
+50%         5.800000      3.000000       4.350000      1.300000
+75%         6.400000      3.300000       5.100000      1.800000
+max         7.900000      4.400000       6.900000      2.500000
+
+print(datainput.info())
+#output
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 150 entries, 0 to 149
+Data columns (total 5 columns):
+SepalLengthCm    150 non-null float64
+SepalWidthCm     150 non-null float64
+PetalLengthCm    150 non-null float64
+PetalWidthCm     150 non-null float64
+Species          150 non-null object
+dtypes: float64(4), object(1)
+memory usage: 5.3+ KB
+None
+
+print(datainput.dtypes)
+#output
+SepalLengthCm    float64
+SepalWidthCm     float64
+PetalLengthCm    float64
+PetalWidthCm     float64
+Species           object
+dtype: object
+
+datainput_val = pd.crosstab(datainput['SepalLengthCm'],datainput['Species'],margins = False)
+print(datainput_val)
+#output
+Species        Iris-setosa  Iris-versicolor  Iris-virginica
+SepalLengthCm                                              
+4.3                      1                0               0
+4.4                      3                0               0
+4.8                      5                0               0
+4.9                      4                1               1
+5.0                      8                2               0
+5.1                      8                1               0
+5.6                      0                5               1
+5.7                      2                5               1
+5.8                      1                3               3
+5.9                      0                2               1
+6.0                      0                4               2
+6.1                      0                4               2
+6.2                      0                2               2
+6.9                      0                1               3
+7.0                      0                1               0
+7.1                      0                0               1
+7.2                      0                0               3
+7.7                      0                0               4
+7.9                      0                0               1
+
+datainput_val = pd.crosstab(datainput['SepalWidthCm'],datainput['Species'],margins = False)
+print(datainput_val)
+#output
+Species       Iris-setosa  Iris-versicolor  Iris-virginica
+SepalWidthCm                                              
+2.0                     0                1               0
+2.2                     0                2               1
+2.3                     1                3               0
+2.4                     0                3               0
+2.5                     0                4               4
+2.6                     0                3               2
+2.7                     0                5               4
+2.8                     0                6               8
+2.9                     1                7               2
+3.0                     6                8              12
+3.1                     5                3               4
+4.0                     1                0               0
+4.1                     1                0               0
+4.2                     1                0               0
+4.4                     1                0               0
+
+datainput_val = pd.crosstab(datainput['PetalLengthCm'],datainput['Species'],margins = False)
+print(datainput_val)
+#output
+Species        Iris-setosa  Iris-versicolor  Iris-virginica
+PetalLengthCm                                              
+1.0                      1                0               0
+1.1                      1                0               0
+1.2                      2                0               0
+1.9                      2                0               0
+3.0                      0                1               0
+3.3                      0                2               0
+3.6                      0                1               0
+3.7                      0                1               0
+3.8                      0                1               0
+3.9                      0                3               0
+4.0                      0                5               0
+4.8                      0                2               2
+4.9                      0                2               3
+5.0                      0                1               3
+5.1                      0                1               7
+5.8                      0                0               3
+5.9                      0                0               2
+6.0                      0                0               2
+6.7                      0                0               2
+6.9                      0                0               1
+
+datainput_val = pd.crosstab(datainput['PetalWidthCm'],datainput['Species'],margins = False)
+print(datainput_val)
+#output
+Species       Iris-setosa  Iris-versicolor  Iris-virginica
+PetalWidthCm                                              
+0.1                     6                0               0
+0.2                    28                0               0
+0.3                     7                0               0
+1.0                     0                7               0
+1.1                     0                3               0
+1.2                     0                5               0
+1.8                     0                1              11
+1.9                     0                0               5
+2.0                     0                0               6
+2.1                     0                0               6
+2.5                     0                0               3
+
+datainput_val = pd.crosstab([datainput.SepalLengthCm, datainput.SepalWidthCm],datainput.Species, margins = False)
+print(datainput_val)
+#output
+Species                     Iris-setosa  Iris-versicolor  Iris-virginica
+SepalLengthCm SepalWidthCm                                              
+4.3           3.0                     1                0               0
+4.4           2.9                     1                0               0
+              3.0                     1                0               0
+              3.2                     1                0               0
+4.5           2.3                     1                0               0
+...                                 ...              ...             ...
+7.7           2.6                     0                0               1
+              2.8                     0                0               1
+              3.0                     0                0               1
+              3.8                     0                0               1
+7.9           3.8                     0                0               1
+
+[116 rows x 3 columns]
+
+datainput_val = pd.crosstab([datainput.PetalLengthCm, datainput.PetalWidthCm],datainput.Species, margins = False)
+print(datainput_val)
+#output
+Species                     Iris-setosa  Iris-versicolor  Iris-virginica
+PetalLengthCm PetalWidthCm                                              
+1.0           0.2                     1                0               0
+1.1           0.1                     1                0               0
+1.2           0.2                     2                0               0
+1.3           0.2                     4                0               0
+              0.3                     2                0               0
+...                                 ...              ...             ...
+6.4           2.0                     0                0               1
+6.6           2.1                     0                0               1
+6.7           2.0                     0                0               1
+              2.2                     0                0               1
+6.9           2.3                     0                0               1
+
+[102 rows x 3 columns]
+---------------------------------------------------------------------------------------------------------------------------------------------------
+#Example - 3
+
+import numpy as np
+import pandas as pd
+datainput = pd.read_csv("loan_status.csv")  #https://drive.google.com/file/d/1vZj8S87WtMQkHiRi4a_fA6auzfvqSjt1/view
+
+print (datainput.head(5))
+#output
+grade sub_grade  loan_status         purpose
+0     B        B2   Fully Paid     credit_card
+1     C        C4  Charged Off             car
+2     C        C5   Fully Paid  small_business
+3     C        C1   Fully Paid           other
+4     B        B5   Fully Paid           other
+
+print(datainput.describe())
+#output
+  grade sub_grade loan_status             purpose
+count     50        50          50                  50
+unique     6        19           2                  10
+top        B        B3  Fully Paid  debt_consolidation
+freq      21         6          39                  22
+
+print(datainput.info())
+#output
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 50 entries, 0 to 49
+Data columns (total 4 columns):
+grade          50 non-null object
+sub_grade      50 non-null object
+loan_status    50 non-null object
+purpose        50 non-null object
+dtypes: object(4)
+memory usage: 864.0+ bytes
+None
+
+print(datainput.dtypes)
+#output
+rade          object
+sub_grade      object
+loan_status    object
+purpose        object
+dtype: object
+
+datainput_val = pd.crosstab(datainput['grade'],datainput['loan_status'],margins = False)
+print(datainput_val)
+#output
+loan_status  Charged Off  Fully Paid
+grade                               
+A                      1          11
+B                      5          16
+C                      3           8
+D                      1           3
+E                      0           1
+F                      1           0
+
+datainput_val = pd.crosstab(datainput['purpose'],datainput['loan_status'],margins = False)
+print(datainput_val)
+#output
+loan_status         Charged Off  Fully Paid
+purpose                                    
+car                           1           1
+credit_card                   0           8
+debt_consolidation            4          18
+home_improvement              0           1
+major_purchase                1           1
+medical                       0           1
+moving                        0           1
+other                         4           5
+small_business                1           2
+wedding                       0           1
+
+datainput_val = pd.crosstab([datainput.grade, datainput.purpose],datainput.loan_status, margins = False)
+print(datainput_val)
+#output
+loan_status               Charged Off  Fully Paid
+grade purpose                                    
+A     credit_card                   0           1
+      debt_consolidation            1           7
+      major_purchase                0           1
+      other                         0           1
+      wedding                       0           1
+B     credit_card                   0           6
+      debt_consolidation            1           5
+      major_purchase                1           0
+      medical                       0           1
+      moving                        0           1
+      other                         3           2
+      small_business                0           1
+C     car                           1           0
+      credit_card                   0           1
+      debt_consolidation            2           4
+      home_improvement              0           1
+      other                         0           1
+      small_business                0           1
+D     debt_consolidation            0           2
+      other                         1           1
+E     car                           0           1
+F     small_business                1           0
