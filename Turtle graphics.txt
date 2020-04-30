@@ -1,0 +1,94 @@
+#Turtle graphics
+
+#Example - 1
+
+import turtle
+colors = [ "pink","yellow","blue","green","white","red"]
+sketch = turtle.Pen()
+turtle.bgcolor("black")
+for i in range(200):
+   sketch.pencolor(colors[i % 6])
+   sketch.width(i/100 + 1)
+   sketch.forward(i)
+   sketch.left(59)
+----------------------------------------------------------------------
+#Example - 2
+
+import turtle
+circular = turtle.Screen()
+turtle.speed(10)
+for n in range(30):
+   turtle.circle(5*n)
+   turtle.circle(-5*n)
+   turtle.left(n)
+turtle.exitonclick()
+----------------------------------------------------------------------
+#Example - 3
+
+import turtle
+Spiral_square = turtle.Screen()
+Spiral_square.bgcolor("black")
+Spiral_square.title("Turtle")
+Spiral_square_pgm = turtle.Turtle()
+Spiral_square_pgm.color("white")
+
+def square_function(size):
+	for i in range(4):
+		Spiral_square_pgm.fd(size)
+		Spiral_square_pgm.left(90)
+		size = size-5
+
+square_function(156)
+square_function(136)
+square_function(116)
+square_function(96)
+square_function(76)
+square_function(56)
+square_function(36)
+-----------------------------------------------------------------------------
+#Example - 4
+
+import turtle
+star = turtle.Turtle()
+for i in range(100):
+   star.forward(100)
+   star.right(144)
+turtle.done()
+-----------------------------------------------------------------------------
+#Example - 5
+
+import turtle
+import turtle
+import time
+import random
+
+star = input("Enter the number to draw the shapes: ")
+if star.isdigit():
+	size = int(star)
+slant = 180 - 180*(size-2)/size
+turtle.up
+a = 0
+b = 0
+turtle.setpos(a, b)
+
+
+turtle_shapes = 9
+for a in range(turtle_shapes):
+	turtle.color(random.random(), random.random(), random.random())
+	a += 6
+	b += 6
+	turtle.forward(a)
+	turtle.left(b)
+	for i in range(size):
+		turtle.begin_fill()
+		turtle.down()
+		turtle.forward(50)
+		turtle.left(slant)
+		turtle.forward(50)
+		print (turtle.pos())
+		turtle.up()
+		turtle.end_fill()
+
+time.sleep(10)
+turtle.bye()
+
