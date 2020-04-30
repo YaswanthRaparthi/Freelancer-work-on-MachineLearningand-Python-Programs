@@ -1,0 +1,138 @@
+import pandas as pd
+from IPython.display import display
+from IPython.display import Image
+
+datainput = {
+        'subject_id': ['1', '2', '3', '4', '5'],
+        'first_name': ['Oliver', 'Wendy', 'Penny', 'Cliff', 'Kelly'],
+        'last_name': ['Chamichael', 'Reynolds', 'Diaz', 'Jones', 'Walker']}
+df_1 = pd.DataFrame(datainput, columns = ['subject_id', 'first_name', 'last_name'])
+print(df_1)
+#output
+  subject_id first_name   last_name
+0          1     Oliver  Chamichael
+1          2      Wendy    Reynolds
+2          3      Penny        Diaz
+3          4      Cliff       Jones
+4          5      Kelly      Walker
+
+datainput = {
+        'subject_id': ['4', '5', '6', '7', '8'],
+        'first_name': ['Ira', 'Helen', 'Vinnie', 'Jennifer', 'Randy'],
+        'last_name': ['Sawyer', 'Roberts', 'McTiernan', 'Tyler', 'Gilmore']}
+df_2 = pd.DataFrame(datainput, columns = ['subject_id', 'first_name', 'last_name'])
+print(df_2)
+#output
+  subject_id first_name  last_name
+0          4        Ira     Sawyer
+1          5      Helen    Roberts
+2          6     Vinnie  McTiernan
+3          7   Jennifer      Tyler
+4          8      Randy    Gilmore
+
+datainput = {
+        'subject_id': ['1', '2', '3', '4', '5', '7', '8', '9', '10', '11'],
+        'test_id': [23, 11, 51, 32, 27, 45, 67, 32, 1, 18]}
+df_3 = pd.DataFrame(datainput, columns = ['subject_id','test_id'])
+print(df_3)
+#output
+  subject_id  test_id
+0          1       23
+1          2       11
+2          3       51
+3          4       32
+4          5       27
+5          7       45
+6          8       67
+7          9       32
+8         10        1
+9         11       18
+
+df_new = pd.concat([df_1, df_2])
+print(df_new)
+#output
+ subject_id first_name   last_name
+0          1     Oliver  Chamichael
+1          2      Wendy    Reynolds
+2          3      Penny        Diaz
+3          4      Cliff       Jones
+4          5      Kelly      Walker
+0          4        Ira      Sawyer
+1          5      Helen     Roberts
+2          6     Vinnie   McTiernan
+3          7   Jennifer       Tyler
+4          8      Randy     Gilmore
+
+df_m = pd.merge(df_new, df_3, on='subject_id')
+print(df_m)
+#output
+ subject_id first_name   last_name  test_id
+0          1     Oliver  Chamichael       23
+1          2      Wendy    Reynolds       11
+2          3      Penny        Diaz       51
+3          4      Cliff       Jones       32
+4          4        Ira      Sawyer       32
+5          5      Kelly      Walker       27
+6          5      Helen     Roberts       27
+7          7   Jennifer       Tyler       45
+8          8      Randy     Gilmore       67
+
+df_mo = pd.merge(df_1, df_2, on='subject_id', how='outer')
+print(df_mo)
+#output
+subject_id first_name_x last_name_x first_name_y last_name_y
+0          1       Oliver  Chamichael          NaN         NaN
+1          2        Wendy    Reynolds          NaN         NaN
+2          3        Penny        Diaz          NaN         NaN
+3          4        Cliff       Jones          Ira      Sawyer
+4          5        Kelly      Walker        Helen     Roberts
+5          6          NaN         NaN       Vinnie   McTiernan
+6          7          NaN         NaN     Jennifer       Tyler
+7          8          NaN         NaN        Randy     Gilmore
+
+df_mi = pd.merge(df_1, df_2, on='subject_id', how='inner')
+print(df_mi)
+#output
+  subject_id first_name_x last_name_x first_name_y last_name_y
+0          4        Cliff       Jones          Ira      Sawyer
+1          5        Kelly      Walker        Helen     Roberts
+
+df_mr = pd.merge(df_1, df_2, on='subject_id', how='right')
+print(df_mr)
+#output
+  subject_id first_name_x last_name_x first_name_y last_name_y
+0          4        Cliff       Jones          Ira      Sawyer
+1          5        Kelly      Walker        Helen     Roberts
+2          6          NaN         NaN       Vinnie   McTiernan
+3          7          NaN         NaN     Jennifer       Tyler
+4          8          NaN         NaN        Randy     Gilmore
+
+df_ml = pd.merge(df_1, df_2, on='subject_id', how='left')
+print(df_ml)
+#output
+  subject_id first_name_x last_name_x first_name_y last_name_y
+0          1       Oliver  Chamichael          NaN         NaN
+1          2        Wendy    Reynolds          NaN         NaN
+2          3        Penny        Diaz          NaN         NaN
+3          4        Cliff       Jones          Ira      Sawyer
+4          5        Kelly      Walker        Helen     Roberts
+
+df_mrl = pd.merge(df_1, df_2, on='subject_id', how='left', suffixes=('_left', '_right'))
+print(df_mrl)
+#output
+  subject_id first_name_left last_name_left first_name_right last_name_right
+0          1          Oliver     Chamichael              NaN             NaN
+1          2           Wendy       Reynolds              NaN             NaN
+2          3           Penny           Diaz              NaN             NaN
+3          4           Cliff          Jones              Ira          Sawyer
+4          5           Kelly         Walker            Helen         Roberts
+
+df_mi = pd.merge(df_1, df_2, right_index=True, left_index=True)
+print(df_mi)
+#output
+  subject_id_x first_name_x last_name_x subject_id_y first_name_y last_name_y
+0            1       Oliver  Chamichael            4          Ira      Sawyer
+1            2        Wendy    Reynolds            5        Helen     Roberts
+2            3        Penny        Diaz            6       Vinnie   McTiernan
+3            4        Cliff       Jones            7     Jennifer       Tyler
+4            5        Kelly      Walker            8        Randy     Gilmore
