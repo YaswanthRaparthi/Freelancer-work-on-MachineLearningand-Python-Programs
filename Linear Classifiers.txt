@@ -1,0 +1,202 @@
+#Linear Classifiers in Python
+
+#KNeighborsClassifier
+import pandas as pd
+import warnings
+warnings.filterwarnings("ignore")
+from sklearn.metrics import confusion_matrix
+from sklearn import metrics
+from sklearn.model_selection import train_test_split
+
+#Load the Social_Network_Ads.csv using pandas
+datainput = pd.read_csv('C:\\Users\\GITAM\\Desktop\\Social_Network_Ads.csv')
+print(datainput[0:5],"\n")
+print(datainput.shape,"\n")
+
+#separating features(X) and label(y)
+X = datainput.iloc[:,[2,3]].values
+y = datainput.iloc[:, -1].values
+print(X[0:5])
+print(y[0:5],"\n")
+
+#train test split method
+X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.2)
+print(X_train[0:5])
+print(y_train[0:5],"\n")
+
+#Data preprocessing
+from sklearn.preprocessing import StandardScaler
+sc_X=StandardScaler()
+X_train=sc_X.fit_transform(X_train)
+X_test=sc_X.transform(X_test)
+print(X_train[0:5],"\n")
+
+#KNeighborsClassifier
+from sklearn.neighbors import KNeighborsClassifier
+classifier=KNeighborsClassifier()
+classifier.fit(X_train,y_train)
+predict=classifier.predict(X_test)
+print("\npredicted values :\n",predict)
+
+#Accuracy
+KNN = metrics.accuracy_score(y_test, predict) * 100
+print("\nThe accuracy score using the KNeighborsClassifier  : ",KNN)
+
+#Confusion_matrix
+cm=confusion_matrix(y_test,predict)
+print("\nconfusion matrix : \n",cm)
+
+#output
+
+    User ID  Gender  Age  EstimatedSalary  Purchased
+0  15624510    Male   19            19000          0
+1  15810944    Male   35            20000          0
+2  15668575  Female   26            43000          0
+3  15603246  Female   27            57000          0
+4  15804002    Male   19            76000          0 
+
+(400, 5) 
+
+[[   19 19000]
+ [   35 20000]
+ [   26 43000]
+ [   27 57000]
+ [   19 76000]]
+[0 0 0 0 0] 
+
+[[    51  23000]
+ [    36 118000]
+ [    31 118000]
+ [    42  75000]
+ [    49  88000]]
+[1 1 1 0 1] 
+
+[[ 1.27535174 -1.41334724]
+ [-0.19373594  1.39817979]
+ [-0.68343183  1.39817979]
+ [ 0.39389913  0.12559387]
+ [ 1.07947338  0.51032915]] 
+
+
+predicted values :
+ [1 1 0 0 0 0 0 1 0 1 1 0 0 1 1 1 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0
+ 0 0 1 1 0 0 0 1 0 0 0 0 1 0 1 0 1 0 1 1 0 1 1 1 0 1 0 0 0 0 0 1 0 0 0 0 0
+ 1 0 1 1 0 1]
+
+The accuracy score using the KNeighborsClassifier  :  92.5
+
+confusion matrix : 
+ [[50  4]
+ [ 2 24]]
+-------------------------------------------------------------------------------------------------------------------------
+#Support Vector Machine
+import pandas as pd
+import warnings
+warnings.filterwarnings("ignore")
+from sklearn.metrics import confusion_matrix
+from sklearn import metrics
+from sklearn.model_selection import train_test_split
+
+#Load the iris.csv using pandas
+datainput = pd.read_csv('C:\\Users\\GITAM\\Desktop\\iris.csv')
+print(datainput[0:7],"\n")
+print(datainput.shape,"\n")
+
+#label Encoder
+from sklearn import preprocessing
+label_encoder = preprocessing.LabelEncoder()
+datainput['Species'] = label_encoder.fit_transform(datainput['Species'])
+print(datainput[0:7],"\n")
+
+#separating features(X) and label(y)
+X = datainput.iloc[:, :-1].values
+y = datainput.iloc[:, -1].values
+print(X[0:7])
+print(y[0:7],"\n")
+
+#train test split method
+X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.3)
+print(X_train[0:7])
+print(y_train[0:7],"\n")
+
+#Data Preprocessing StandardScaler
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+scaler.fit(X_train)
+X_train = scaler.transform(X_train)
+X_test = scaler.transform(X_test)
+print(X_train[0:7])
+
+#SVM Classifier
+from sklearn.svm import SVC
+classifier = SVC(kernel = 'linear')
+classifier.fit(X_train,y_train)
+predict=classifier.predict(X_test)
+print("\npredicted values :\n",predict)
+
+#Accuracy
+svm = metrics.accuracy_score(y_test, predict) * 100
+print("\nThe accuracy score using the SVM  : ",svm)
+
+#Confusion_matrix
+cm=confusion_matrix(y_test,predict)
+print("\nconfusion matrix : \n",cm)
+
+#output
+  SepalLengthCm  SepalWidthCm  PetalLengthCm  PetalWidthCm      Species
+0            5.1           3.5            1.4           0.2  Iris-setosa
+1            4.9           3.0            1.4           0.2  Iris-setosa
+2            4.7           3.2            1.3           0.2  Iris-setosa
+3            4.6           3.1            1.5           0.2  Iris-setosa
+4            5.0           3.6            1.4           0.2  Iris-setosa
+5            5.4           3.9            1.7           0.4  Iris-setosa
+6            4.6           3.4            1.4           0.3  Iris-setosa 
+
+(150, 5) 
+
+   SepalLengthCm  SepalWidthCm  PetalLengthCm  PetalWidthCm  Species
+0            5.1           3.5            1.4           0.2        0
+1            4.9           3.0            1.4           0.2        0
+2            4.7           3.2            1.3           0.2        0
+3            4.6           3.1            1.5           0.2        0
+4            5.0           3.6            1.4           0.2        0
+5            5.4           3.9            1.7           0.4        0
+6            4.6           3.4            1.4           0.3        0 
+
+[[5.1 3.5 1.4 0.2]
+ [4.9 3.  1.4 0.2]
+ [4.7 3.2 1.3 0.2]
+ [4.6 3.1 1.5 0.2]
+ [5.  3.6 1.4 0.2]
+ [5.4 3.9 1.7 0.4]
+ [4.6 3.4 1.4 0.3]]
+[0 0 0 0 0 0 0] 
+
+[[5.  3.3 1.4 0.2]
+ [5.5 2.6 4.4 1.2]
+ [6.1 2.8 4.7 1.2]
+ [6.7 3.3 5.7 2.5]
+ [7.  3.2 4.7 1.4]
+ [5.6 2.8 4.9 2. ]
+ [6.1 3.  4.6 1.4]]
+[0 1 1 2 1 2 1] 
+
+[[-1.08634722  0.47746761 -1.37220653 -1.34509577]
+ [-0.48536483 -1.08922299  0.34033331 -0.0312813 ]
+ [ 0.23581404 -0.6415971   0.5115873  -0.0312813 ]
+ [ 0.95699291  0.47746761  1.08243391  1.67667752]
+ [ 1.31758235  0.25365467  0.5115873   0.2314816 ]
+ [-0.36516835 -0.6415971   0.62575662  1.01977028]
+ [ 0.23581404 -0.19397122  0.45450264  0.2314816 ]]
+
+predicted values :
+ [2 1 0 2 2 1 2 2 0 0 0 1 1 1 2 1 1 2 2 0 0 1 0 1 0 0 1 1 0 2 2 1 2 2 0 2 1
+ 0 0 0 2 0 2 0 2]
+
+The accuracy score using the SVM  :  95.55555555555556
+
+confusion matrix : 
+ [[16  0  0]
+ [ 0 13  2]
+ [ 0  0 14]]
+
