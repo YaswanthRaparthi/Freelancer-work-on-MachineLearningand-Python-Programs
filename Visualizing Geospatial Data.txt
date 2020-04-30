@@ -1,0 +1,85 @@
+#Visualizing Geospatial Data
+
+#https://www.kaggle.com/worldbank/world-development-indicators#Indicators.csv
+import folium
+import json
+import pandas as pd
+
+Geospatial= json.load(open('world-countries.json','r'))
+datainput = pd.read_csv('indicators.csv')
+print(datainput[0:5])
+print(datainput.shape,"\n")
+
+world_x = datainput['CountryName'].unique().tolist()
+world_y = datainput['IndicatorName'].unique().tolist()
+print(len(world_x))
+print(len(world_y),"\n")
+print(datainput['IndicatorName'][:15],"\n")
+
+x1 =  'Merchandise exports by the reporting economy'
+x2 = 2012
+m1 = datainput['IndicatorName'].str.contains(x1)
+m2 = datainput['Year'].isin([x2])
+# apply our mask
+y = datainput[m1 & m2]
+print(y.head(),"\n")
+
+x3 = y[['CountryCode','Value']]
+print(x3.head())
+
+#Visualising the Map
+folium_map = folium.Map(location=[100, 0], zoom_start=1.5)
+folium.Choropleth(geo_data=Geospatial, data=x3,
+             columns=['CountryCode', 'Value'],
+             key_on='feature.id',
+             fill_color='YlGnBu', fill_opacity=0.7, line_opacity=0.2,
+             legend_name=x1).add_to(folium_map)
+print(folium_map.save('GeospatialData.html'))
+
+
+#output
+  CountryName CountryCode  ...  Year         Value
+0  Arab World         ARB  ...  1960  1.335609e+02
+1  Arab World         ARB  ...  1960  8.779760e+01
+2  Arab World         ARB  ...  1960  6.634579e+00
+3  Arab World         ARB  ...  1960  8.102333e+01
+4  Arab World         ARB  ...  1960  3.000000e+06
+
+[5 rows x 6 columns]
+(5656458, 6) 
+
+247
+1344 
+
+0     Adolescent fertility rate (births per 1,000 wo...
+1     Age dependency ratio (% of working-age populat...
+2     Age dependency ratio, old (% of working-age po...
+3     Age dependency ratio, young (% of working-age ...
+4           Arms exports (SIPRI trend indicator values)
+5           Arms imports (SIPRI trend indicator values)
+6                  Birth rate, crude (per 1,000 people)
+7                                    CO2 emissions (kt)
+8                CO2 emissions (metric tons per capita)
+9     CO2 emissions from gaseous fuel consumption (%...
+10    CO2 emissions from liquid fuel consumption (% ...
+11      CO2 emissions from liquid fuel consumption (kt)
+12    CO2 emissions from solid fuel consumption (% o...
+13                 Death rate, crude (per 1,000 people)
+14             Fertility rate, total (births per woman)
+Name: IndicatorName, dtype: object 
+
+                            CountryName CountryCode  ...  Year         Value
+5202568                      Arab World         ARB  ...  2012  1.263578e+12
+5202569                      Arab World         ARB  ...  2012  5.202966e+00
+5203052          Caribbean small states         CSS  ...  2012  2.809875e+10
+5203053          Caribbean small states         CSS  ...  2012  1.893474e+00
+5203617  Central Europe and the Baltics         CEB  ...  2012  6.973982e+11
+
+[5 rows x 6 columns] 
+
+        CountryCode         Value
+5202568         ARB  1.263578e+12
+5202569         ARB  5.202966e+00
+5203052         CSS  2.809875e+10
+5203053         CSS  1.893474e+00
+5203617         CEB  6.973982e+11
