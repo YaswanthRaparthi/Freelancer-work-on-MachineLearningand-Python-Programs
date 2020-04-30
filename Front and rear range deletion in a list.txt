@@ -1,0 +1,21 @@
+#Front and rear range deletion in a list
+
+x1 = [5,10,15,20,25,30,35,40,45,50,55,60,70,75,80,85,90]
+x2 = [2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36]
+
+print ("The given list is: " + str(x1))
+# using del operator + list slicing
+del x1[-3:], x1[:3]
+print ("Front and rear range deletion in a list is :" + str(x1))
+
+print ("\nThe given list is: " + str(x2))
+# using list slicing
+output = x2[4 : -4]
+print ("Front and rear range deletion in a list is : " + str(output))
+
+#output
+The given list is: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 70, 75, 80, 85, 90]
+Front and rear range deletion in a list is :[20, 25, 30, 35, 40, 45, 50, 55, 60, 70, 75]
+
+The given list is: [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36]
+Front and rear range deletion in a list is : [10, 12, 14, 16, 18, 20, 22, 24, 26, 28]
