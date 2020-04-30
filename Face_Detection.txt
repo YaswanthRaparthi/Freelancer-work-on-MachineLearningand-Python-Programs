@@ -1,0 +1,46 @@
+#Opencv program for Face Detection
+#A Haar Cascade is basically a classifier which is used to detect the object for which it has been trained for, from the source.
+#The Haar Cascade is trained by superimposing the positive image over a set of negative images.
+#The training is generally done on a server and on various stages.
+#Better results are obtained by using high quality images and increasing the amount of stages for which the classifier is trained.
+
+
+
+# OpenCV program for face detection in real time
+# import libraries of python OpenCV
+import cv2
+
+# load the required trained "haarcascade_frontalface_default" XML classifiers
+detect_face = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+
+# It capture frames from the camera
+display = cv2.VideoCapture(0)
+
+while 1:
+    #It reads frames from a camera
+	rectangle, picture = display.read()
+
+    #It convert to gray scale of each frames
+	color = cv2.cvtColor(picture, cv2.COLOR_BGR2GRAY)
+
+    #It Detects faces of different sizes in the image
+	profile = detect_face.detectMultiScale(color, 1.5, 7)
+
+	for (i,j,p,q) in profile:
+        #To draw a rectangle in a face
+		cv2.rectangle(picture,(i,j),(i+p,j+q),(220,20,60),2)
+		bg_1 = color[j:j+q, i:i+p]
+		bg_2 = picture[j:j+q, i:i+p]
+
+    # To display the image on window
+	cv2.imshow('Face Detection',picture)
+	fd = cv2.waitKey(35) & 0xff
+	if fd == 25:
+		break
+
+#To close the window 
+display.release()
+
+#It De-allocate any associated memory usage
+cv2.destroyAllWindows()
+
