@@ -1,0 +1,20 @@
+#Cartooning an Image using OpenCV
+#Using OpenCV and Python, an RGB color image can be converted into a cartoon in five steps:
+#Apply a bilateral filter to reduce the color palette of the image.
+#Convert the original color image to grayscale.
+#Apply a median blur to reduce image noise in the grayscale image.
+#Create an edge mask from the grayscale image using adaptive thresholding.
+
+import cv2
+
+picture = cv2.imread('messi.jpg')
+scale = cv2.cvtColor(picture, cv2.COLOR_BGR2GRAY)
+scale = cv2.medianBlur(scale, 7)
+boder = cv2.adaptiveThreshold(scale, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 9, 9)
+shade = cv2.bilateralFilter(picture, 10, 299, 299)
+masking = cv2.bitwise_and(shade, shade, mask=boder)
+
+cv2.imshow("original image", picture)
+cv2.imshow("Cartoon image", masking)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
