@@ -1,0 +1,47 @@
+#Get the smallest window in a string containing all characters of given pattern
+
+characters = 256
+def window(char, pattern):
+    x1 = len(char)
+    x2 = len(pattern)
+    if x1 < x2:
+        print("Window doesn't exist")
+        return ""
+    y1 = [0] * characters
+    y2 = [0] * characters
+    for m in range(0, x2):
+        y1[ord(pattern[m])] += 1
+        begin, begin_index, length = 0, -1, float('inf')
+    value = 0
+    for n in range(0, x1):
+        y2[ord(char[n])] += 1
+        if (y1[ord(char[n])] != 0 and
+                y2[ord(char[n])] <=
+                y1[ord(char[n])]):
+            value += 1
+        if value == x2:
+            while (y2[ord(char[begin])] >
+                   y1[ord(char[begin])] or
+                   y1[ord(char[begin])] == 0):
+                if (y2[ord(char[begin])] >
+                        y1[ord(char[begin])]):
+                    y2[ord(char[begin])] -= 1
+                    begin += 1
+            len_window = n - begin + 1
+            if length > len_window:
+                length = len_window
+                begin_index = begin
+    if begin_index == -1:
+        print("Window doesn't exist")
+        return ""
+    return char[begin_index: begin_index + length]
+
+if __name__ == "__main__":
+    char = "work from home job freelancer"
+    pattern = "laoh"
+    print("smallest window in a string containing all characters of given pattern is : ")
+    print(window(char, pattern))
+
+#output
+smallest window in a string containing all characters of given pattern is : 
+home job freela
