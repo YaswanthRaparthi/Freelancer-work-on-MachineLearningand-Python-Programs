@@ -1,0 +1,32 @@
+#Bisect Algorithm Functions in Python
+
+import bisect
+
+x1 = [2, 6, 9, 9, 9, 3, 7]
+x2 = [25, 10, 15, 20, 35, 30]
+x3 = [1, 4, 1, 4, 3, 3, 3]
+
+bisect.insort(x1, 6)
+print("Using insort the new value added to the existing values is:")
+for k in range(0, 7):
+	print(x1[k], end=" ")
+
+bisect.insort_left(x2, 8)
+print("\r")
+print ("Using insort_left() the new value added to the existing values is: ")
+for m in range(0, 7):
+	print(x2[m], end=" ")
+print("\r") 
+
+bisect.insort_right(x3, 9, 0, 5)
+print ("Using insort_right() the new value added to the existing values is:  ")
+for n in range(0, 7):
+	print(x3[n], end=" ")
+
+#output
+Using insort the new value added to the existing values is:
+2 6 6 9 9 9 3 
+Using insort_left() the new value added to the existing values is: 
+8 25 10 15 20 35 30 
+Using insort_right() the new value added to the existing values is:  
+1 4 1 4 3 9 3 

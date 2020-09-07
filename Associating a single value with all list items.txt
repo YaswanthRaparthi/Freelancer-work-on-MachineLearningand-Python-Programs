@@ -1,0 +1,28 @@
+#Associating a single value with all list items
+X = [2, 4, 6, 8, 10, 12, 15]
+Y = 'freelancer'
+
+from itertools import repeat
+X1 = ['work','from','home']
+Y1 = '3'
+
+print ("The Given list : " + str(X))
+print ("Attached value : " + str(Y))
+# using map() + lambda
+output = list(map(lambda k: (k, Y), X))
+print ("Associating a single value with all list items : " + str(output))
+
+print ("\nThe Given list : " + str(X1))
+print ("Attached value : " + str(Y1))
+# using zip() + itertools.repeat()
+output1 = list(zip(X1, repeat(Y1)))
+print ("Associating a single value with all list items : " + str(output1))
+
+#output
+The Given list : [2, 4, 6, 8, 10, 12, 15]
+Attached value : freelancer
+Associating a single value with all list items : [(2, 'freelancer'), (4, 'freelancer'), (6, 'freelancer'), (8, 'freelancer'), (10, 'freelancer'), (12, 'freelancer'), (15, 'freelancer')]
+
+The Given list : ['work', 'from', 'home']
+Attached value : 3
+Associating a single value with all list items : [('work', '3'), ('from', '3'), ('home', '3')]
