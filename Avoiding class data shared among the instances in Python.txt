@@ -1,0 +1,46 @@
+#Avoiding class data shared among the instances in Python
+
+# By declaring them inside the __init__
+class Function:
+	def __init__(self):
+		self.value = []
+
+m = Function()
+n = Function()
+
+m.value.append(10)
+n.value.append(15)
+m.value.append(20)
+n.value.append(25)
+m.value.append(30)
+n.value.append(35)
+
+print(m.value)
+print(n.value)
+
+#By creating the new list and storing the values in that.
+class Function1:
+	value1 =[]
+
+m1 = Function1()
+n1 = Function1()
+
+m1.value1 = []
+n1.value1 = []
+
+m1.value1.append(30)
+n1.value1.append(60)
+m1.value1.append(120)
+n1.value1.append(240)
+m1.value1.append(480)
+n1.value1.append(960)
+
+print("\n",m1.value1)
+print(n1.value1)
+
+#output
+[10, 20, 30]
+[15, 25, 35]
+
+ [30, 120, 480]
+[60, 240, 960]

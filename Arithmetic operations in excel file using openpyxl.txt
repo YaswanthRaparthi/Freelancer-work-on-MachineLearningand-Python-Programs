@@ -1,0 +1,40 @@
+#Arithmetic operations in excel file using openpyxl
+#Openpyxl is a Python library using which one can perform multiple operations on excel files like reading, writing, arithmatic operations and plotting graphs
+
+
+import openpyxl
+
+excel = openpyxl.Workbook()
+
+excel_file = excel.active
+
+excel_file['A1'] = 50
+excel_file['B1'] = 100
+excel_file['C1'] = 150
+excel_file['D1'] = 200
+excel_file['E1'] = 250
+
+excel_file['A3'] = 20
+excel_file['B3'] = 40
+excel_file['C3'] = 60
+excel_file['D3'] = 80
+excel_file['E3'] = 100
+
+excel_file['A5'] = 2
+excel_file['B5'] = 4
+excel_file['C5'] = 6
+excel_file['D5'] = 9
+excel_file['E5'] = 15
+
+excel_file['A7'] = 4
+excel_file['B7'] = 11
+excel_file['C7'] = 27
+excel_file['D7'] = 40
+excel_file['E7'] = 75
+
+excel_file['G1'] = '= SUM(A1:E1)'
+excel_file['G3'] = '= AVERAGE(A3:E3)'
+excel_file['G5'] = '= PRODUCT(A5:E5)'
+excel_file['G7'] = '= COUNT(A7:E7)'
+
+excel.save("Arithmetic_operations.xlsx")

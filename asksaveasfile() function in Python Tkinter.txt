@@ -1,0 +1,19 @@
+#asksaveasfile() function in Python Tkinter
+#asksaveasfile() is the function which is used to save user’s file
+
+
+from tkinter import *
+from tkinter import ttk
+from tkinter.filedialog import asksaveasfile
+
+base = Tk()
+base.geometry('300x250')
+
+def Function():
+	data = [('All tyes(*.*)', '*.*')]
+	file = asksaveasfile(filetypes = data, defaultextension = data)
+
+x1 = ttk.Button(base, text = 'Click to save all files ', command = lambda : Function())
+x1.pack(side = TOP, pady = 20)
+
+mainloop()

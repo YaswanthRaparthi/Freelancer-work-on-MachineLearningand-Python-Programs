@@ -1,0 +1,22 @@
+#Byte Objects vs String in Python
+
+x= 'Freelancer'
+
+y= b'Freelancer'
+
+z1= x.encode('ASCII')
+z2= y.decode('ASCII')
+if(z1==y):
+    print("encoding done")
+else:
+    print("encoding fail")
+
+if(z2==x):
+    print("\ndecoding done")
+else:
+    print("decoding fail")
+
+#output
+encoding done
+
+decoding done
