@@ -1,0 +1,109 @@
+#Advanced NLP with spaCy
+
+#spacy is a open source library for Advanced Natural Language Processing(NLP) in Python
+#Designed specifically for building applications
+#It process and understand large volumes of text
+#It can be used to build information extraction or natural language understanding systems, or to pre-process text for deep learning.
+
+#importing English Language Class
+from spacy.lang.en import English
+
+#creating NLP object
+NLP_English = English()
+
+#processing a string of text with the nlp object
+processing_doc = NLP_English("Freelancer Work!")
+
+#spacy creates a document object 
+#document lets you access information about the text in a sturcture way
+for token in processing_doc:
+  print(token.text)
+
+#output
+Freelancer
+Work
+!
+---------------------------------------------------
+
+import spacy
+#en_core_web_sm is a statistical model or a english language developed for spacy
+natural_language_processing= spacy.load("en_core_web_sm")
+processing_doc = natural_language_processing("coronavirus rapidly increasing in america")
+for token in processing_doc:
+  print(token.text)
+
+#output
+coronavirus
+rapidly
+increasing
+in
+america
+----------------------------------------------------
+import spacy
+#en_core_web_sm is a statistical model or a english language developed for spacy
+natural_language_processing= spacy.load("en_core_web_sm")
+processing_doc = natural_language_processing("In 1998 Yahoo refuses to buy Google for $1 million dollars")
+for token in processing_doc:
+  print(token.text,token.pos_)
+  
+#output
+In ADP
+1998 NUM
+Yahoo PROPN
+refuses VERB
+to PART
+buy VERB
+Google PROPN
+for ADP
+$ SYM
+1 NUM
+million NUM
+dollars NOUN
+-----------------------------------------------------------
+
+#Entity recognistion
+import spacy
+natural_language_processing= spacy.load("en_core_web_sm")
+processing_doc = natural_language_processing("coronavirus rapidly increasing in america")
+for ent in processing_doc.ents:
+  print(ent.text, ent.start_char,ent.end_char,ent.label_)
+  
+#output
+coronavirus 0 11 ORG
+america 34 41 GPE
+-------------------------------------------------------------
+
+Document = natural_language_processing("work from home freelancer")
+#Index into document to get a single token
+Token = Document[0]
+Token1 = Document[1:3]
+Token2 = Document[3:4]
+#Get the token text via .text attribute
+print(Token.text)
+print(Token1.text)
+print(Token2.text)
+
+#output
+work
+from home
+freelancer
+-----------------------------------------------------------------
+
+#lexical Attributes
+
+document = natural_language_processing("BMW car costs US$35,200.00 to US$1,47,500.00")
+#i is the index of the token within the parent document
+print("Index: ", [token.i for token in document])
+#text returns token texts
+print("Text: ", [token.text for token in document])
+#is_alpha, is_punct, like_num returns boolean values
+print("is_alpha: ", [token.is_alpha for token in document])
+print("is_punct: ", [token.is_punct for token in document])
+print("like_num: ", [token.like_num for token in document])
+
+#output
+Index:  [0, 1, 2, 3, 4, 5, 6, 7]
+Text:  ['BMW', 'car', 'costs', 'US$', '35,200.00', 'to', 'US$', '1,47,500.00']
+is_alpha:  [True, True, True, False, False, True, False, False]
+is_punct:  [False, False, False, False, False, False, False, False]
+like_num:  [False, False, False, False, True, False, False, True]
