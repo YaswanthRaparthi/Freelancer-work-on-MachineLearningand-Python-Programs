@@ -1,0 +1,22 @@
+#OpenCV Python Program to blur an image
+
+import cv2
+img = cv2.imread('mario.png')
+
+cv = cv2.blur(img,(15,15))
+
+cv2.imshow('Averaging',cv)
+cv2.waitKey(0)
+
+x1 = cv2.GaussianBlur(img, (5,5),0)
+cv2.imshow('GaussianBlur', x1)
+cv2.waitKey(0)
+
+x2 = cv2.medianBlur(img,5)
+cv2.imshow('MediaBlur', x2)
+cv2.waitKey(0)
+
+x3 = cv2.bilateralFilter(img,9,75,75)
+cv2.imshow('BilateralFilter', x3)
+cv2.waitKey(0)
+cv2.destroyAllWindows()

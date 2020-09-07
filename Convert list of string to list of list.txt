@@ -1,0 +1,21 @@
+#Convert list of string to list of list
+
+x1 = [ '[2, 4, 6, 8]','[10, 12, 14, 16]' ]
+x2 = [ '[5, 10, 15]', '[20, 25, 30]', '[35, 40 ,45]' ]
+
+print ("The given list is : " + str(x1))
+# using strip() + split()
+output1 = [k.strip("[]").split(", ") for k in x1]
+print ("Converting list of string to list of list : " + str(output1))
+
+print ("\nThe given list is : " + str(x2))
+# using list slicing + split()
+output2 = [i[1 : -1].split(', ') for i in x2]
+print ("Converting list of string to list of list : " + str(output2))
+
+#output
+The given list is : ['[2, 4, 6, 8]', '[10, 12, 14, 16]']
+Converting list of string to list of list : [['2', '4', '6', '8'], ['10', '12', '14', '16']]
+
+The given list is : ['[5, 10, 15]', '[20, 25, 30]', '[35, 40 ,45]']
+Converting list of string to list of list : [['5', '10', '15'], ['20', '25', '30'], ['35', '40 ,45']]

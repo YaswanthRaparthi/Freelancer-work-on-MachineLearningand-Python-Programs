@@ -1,0 +1,33 @@
+#Find whether all tuple have same length
+
+#Using Iteration
+x1 = [(5, 10, 25, 50), (20, 25, 70)]
+x2 = [(2, 4, 6, 8, 10, 12), (14, 16, 18, 20, 22, 24)]
+
+print("Given tuple values are ", x1)
+length = 4
+val = 1
+for t in x1:
+	if len(t) != length:
+		val = 0
+		break
+if val:
+	print("The length of the tuples are same")
+else:
+	print("The length of the tuples are not same")
+
+length2 = 6
+print("\nGiven tuple values are ", x2)
+# Using all()
+result =(all(len(k) == length2 for k in x2))
+if result:
+    print("The length of the tuples are same")
+else:
+    print("The length of the tuples are not same")
+	
+#output
+Given tuple values are  [(5, 10, 25, 50), (20, 25, 70)]
+The length of the tuples are not same
+
+Given tuple values are  [(2, 4, 6, 8, 10, 12), (14, 16, 18, 20, 22, 24)]
+The length of the tuples are same

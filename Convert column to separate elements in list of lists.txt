@@ -1,0 +1,27 @@
+#Convert column to separate elements in list of lists
+
+from itertools import chain
+x1  = [[5,10,15],
+	 [20,25,30],
+	 [30,35,40]]
+
+x2 = [[2,4,6],
+	 [8,10,12],
+	 [14,16,18]]
+
+#Using list slicing and list comprehension
+print ("The Given input is : " + str(x1))
+output1 = [m for y in [[n[1 : ], [n[0]]] for n in x1] for m in y]
+print ("Converting column to separate elements in list of lists : " + str(output1))
+
+print ("\nThe Given input is : " + str(x2))
+# using itertools.chain() + list comprehension + list slicing
+output2 = list(chain(*[list((sub[1: ], [sub[0]]))for sub in x2]))
+print ("Converting column to separate elements in list of lists : " + str(output2))
+
+#output
+The Given input is : [[5, 10, 15], [20, 25, 30], [30, 35, 40]]
+Converting column to separate elements in list of lists : [[10, 15], [5], [25, 30], [20], [35, 40], [30]]
+
+The Given input is : [[2, 4, 6], [8, 10, 12], [14, 16, 18]]
+Converting column to separate elements in list of lists : [[4, 6], [2], [10, 12], [8], [16, 18], [14]]

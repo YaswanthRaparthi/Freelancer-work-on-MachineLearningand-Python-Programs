@@ -1,0 +1,30 @@
+#Import a module in Python
+
+
+#create a module as python_module.py and write the below code in it
+def welcome(x):
+  print("Hi, nice to meet you " + x)
+
+student = {
+  "Student_name": "yaswanth",
+  "roll_number": 354,
+  "marks": 98
+}
+---------------------
+#Run this code in another python file
+from math import *
+print("The value of pi is - ",pi)
+print("The factorial of 10 is - ",factorial(10))
+
+#Here, we are importing the " python_module " file 
+import python_module
+python_module.welcome("Varun")
+
+x = python_module.student["Student_name"]
+print(x)
+
+#output
+The value of pi is -  3.141592653589793
+The factorial of 10 is -  3628800
+Hi, nice to meet you Varun
+yaswanth

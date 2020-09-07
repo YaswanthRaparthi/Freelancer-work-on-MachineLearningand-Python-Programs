@@ -1,0 +1,43 @@
+#Find current weather of any city using openweathermap API
+
+import requests
+from tkinter import *
+
+def condition():
+    x = x_list.get()
+    openweather_url_link = "https://openweathermap.org/data/2.5/weather?q={}&appid=b6907d289e10d714a6e88b30761fae22".format(x)
+    y = requests.get(openweather_url_link)
+    result = y.json()
+
+    w1 = result['weather'][0]['description']
+    w2 = result['main']['temp']
+    w3 = result['main']['humidity']
+
+    w5.configure(text="atmospheric conditions : " + w1)
+    w6.configure(text="inversion : " + str(w2))
+    w7.configure(text="Humid : " + str(w3))
+
+
+tkinter = Tk()
+tkinter.geometry("600x450")
+
+city= ["visakhapatnam","hyderabad","chennai","mumbai","kolkata"]
+
+x_list = StringVar(tkinter)
+x_list.set("Click here to select city")
+set = OptionMenu(tkinter, x_list, *city)
+set.grid(row=2, column=2, padx=250, pady=30)
+
+button = Button(tkinter, text="Enter", width=12, command=condition)
+button.grid(row=5, column=2, padx=150)
+
+w5 = Label(tkinter, font=("Arial Black", 15))
+w5.grid(row=10, column=2)
+
+w6 = Label(tkinter, font=("Arial Black", 15))
+w6.grid(row=12, column=2)
+
+w7 = Label(tkinter, font=("Arial Black", 15))
+w7.grid(row=14, column=2)
+
+tkinter.mainloop()

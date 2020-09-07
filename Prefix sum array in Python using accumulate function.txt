@@ -1,0 +1,13 @@
+#Prefix sum array in Python using accumulate function
+
+from itertools import accumulate
+
+def Prefix_sum(x):
+	print ("Prefix Sum :", list(accumulate(x)))
+
+if __name__ == "__main__":
+	x = [5,25,75]
+	Prefix_sum(x)
+
+#output
+Prefix Sum : [5, 30, 105]

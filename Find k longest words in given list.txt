@@ -1,0 +1,49 @@
+#Finding k longest words in given list
+
+#Using count() from itertools
+from itertools import count
+
+def x1(m,n):
+	val = count()
+	return sorted(m, key = lambda i : (len(i), next(val)),reverse = True)[:n]
+
+m = ['apple','mango','avocados','Cherries','Clementine']
+n = 4
+print(x1(m, n))
+
+#output
+['Clementine', 'Cherries', 'avocados', 'mango']
+---------------------------------------------------------------------------------------
+#Using sorted()
+def x2(m1, n1):
+	i, j = zip(*sorted(enumerate(m1),
+	key = lambda k: (-len(k[1]), -k[0]))[:n1])
+	return list(j)
+
+m1 = ['Bananas ','Watermelons','Grapefruit ','Dewberries',' Blueberries','Dates']
+n1 = 3
+print(x2(m1, n1))
+
+#output
+[' Blueberries', 'Grapefruit ', 'Watermelons']
+----------------------------------------------------------------------------------------
+#Using heap
+import heapq
+from operator import itemgetter
+
+def x3(m2, n2):
+	h = [(0, i, '') for i in range(n2)]
+	heapq.heapify(h)
+
+	for k, y in enumerate(m2):
+		z = (len(y), k, y)
+		if z > h[0]:
+			heapq.heapreplace(h, z)
+	return sorted(list(map(itemgetter(2), h)),key = len, reverse = True)
+
+m2 = ['Squirrel','Chimpanzee','Panda','Lion','Walrus']
+n2 = 5
+print(x3(m2, n2))
+
+#output
+['Chimpanzee', 'Squirrel', 'Walrus', 'Panda', 'Lion']

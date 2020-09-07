@@ -1,0 +1,36 @@
+#The real time currency exchange rate
+from forex_python.converter import CurrencyRates
+currency = CurrencyRates()
+print("INDIAN rupee exchange rates are",currency.get_rates('INR'))
+
+print("\nreal time currency rate of 1-SGD in INR is :",currency.get_rate('SGD', 'INR')) #Singapore Dollar
+print("real time currency rate after converting 5-SGD to INR is :",currency.convert('SGD', 'INR', 5))
+
+print("\nreal time currency rate of 1-GBP in INR is :",currency.get_rate('GBP', 'INR')) #Great Britain Pound
+print("real time currency rate after converting 5-GBP to INR is :",currency.convert('GBP', 'INR', 5))
+
+print("\nreal time currency rate of 1-USD in INR is :",currency.get_rate('USD', 'INR')) #United States Dollar
+print("real time currency rate after converting 5-USD to INR is :",currency.convert('USD', 'INR', 5))
+
+print("\nreal time currency rate of 1-EUR in INR is :",currency.get_rate('EUR', 'INR')) # European Union
+print("real time currency rate after converting 5-EUR to INR is :",currency.convert('EUR', 'INR', 5))
+
+#output
+INDIAN rupee exchange rates are {'GBP': 0.0107402835, 'HKD': 0.1081835018, 'IDR': 191.213056563, 'ILS': 0.0475666847, 'DKK': 0.0960748, 
+'INR': 1.0, 'CHF': 0.0136456002, 'MXN': 0.2638873884, 'CZK': 0.3223113923, 'SGD': 0.0194600921, 'THB': 0.4393857551, 'HRK': 0.0958021452, 
+'EUR': 0.0128610747, 'MYR': 0.0582529516, 'NOK': 0.1297335185, 'CNY': 0.0976734316, 'BGN': 0.0251536898, 'PHP': 0.7067803586, 
+'PLN': 0.0550904134, 'ZAR': 0.2095905034, 'CAD': 0.0184170589, 'ISK': 1.7786866271, 'BRL': 0.0611544101, 'RON': 0.0617846027, 'NZD': 0.0219975821,
+'TRY': 0.0850515729, 'JPY': 1.5556755923, 'RUB': 0.8944620212, 'KRW': 16.8409342285, 'USD': 0.0138912468, 'AUD': 0.0210445765, 'HUF': 4.3354682717,
+'SEK': 0.1359286982}
+
+real time currency rate of 1-SGD in INR is : 51.3872182936
+real time currency rate after converting 5-SGD to INR is : 256.936091468
+
+real time currency rate of 1-GBP in INR is : 93.107412286
+real time currency rate after converting 5-GBP to INR is : 465.53706143
+
+real time currency rate of 1-USD in INR is : 71.9877789094
+real time currency rate after converting 5-USD to INR is : 359.938894547
+
+real time currency rate of 1-EUR in INR is : 77.754
+real time currency rate after converting 5-EUR to INR is : 388.77000000000004
