@@ -1,0 +1,142 @@
+#Introduction to TensorFlow in Python
+#TensorFlow is an open source library for fast numerical computing.
+#It was created and is maintained by Google and released under the Apache 2.0 open source license.
+#The API is nominally for the Python programming language, although there is access to the underlying C++ API.
+#numerical libraries intended for use in Deep Learning like Theano, TensorFlow was designed for use both in research and development and in production systems
+#It can run on single CPU systems, GPUs as well as mobile devices and large scale distributed systems of hundreds of machines.
+
+import tensorflow as tf 
+x1 = tf.constant(10, dtype=tf.int32) 
+x2 = tf.constant(12, dtype=tf.int32) 
+x3 = tf.constant(15, dtype=tf.int32)
+x4 = tf.multiply(x1, x2) 
+x5 = tf.subtract(x3,x1)
+x6 = tf.add(x2,x3)
+#tensorflow session 
+session = tf.Session() 
+
+print("multiple of x1 and x2 is:",session.run(x4)) 
+print("subtraction of x3 and x1 is:",session.run(x5))
+print("addition of x2 and x3 is:",session.run(x6)) 
+
+session.close() 
+
+#output
+multiple of x1 and x2 is: 120
+subtraction of x3 and x1 is: 5
+addition of x2 and x3 is: 27
+
+--------------------------------------------------------------------------------------------
+import tensorflow as tf 
+x1 = tf.Variable(tf.zeros([4,4])) 
+with tf.Session() as session: 
+    session.run(tf.global_variables_initializer()) 
+    print("Before addition matrix of Tensorflow :\n",session.run(x1)) 
+    y1 = x1.assign(x1 + tf.ones([4,4])) 
+    print("After addition matrix of tensorflow:\n", session.run(y1))
+
+#output
+Before addition matrix of Tensorflow :
+ [[0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]]
+After addition matrix of tensorflow:
+ [[1. 1. 1. 1.]
+ [1. 1. 1. 1.]
+ [1. 1. 1. 1.]
+ [1. 1. 1. 1.]]
+ --------------------------------------------------------------------------------------------
+import tensorflow as tf
+import numpy as np
+
+variables = [tf.contrib.layers.real_valued_column("X")]
+predict = tf.contrib.learn.LinearRegressor(feature_columns=variables)
+
+# training and test data
+X_training = np.asarray([2.1, 2.5, 1.75, 3.2, 5.71, 8.16, 7.71, 6.71, 5.23, 2.52, 6.41, 6.71, 8.91, 7.23, 6.54, 4.54, 3.36, 2.11 ,9.12, 7.6])
+y_training= np.asarray([9.46, 8.3, 7.21, 6.52, 5.5, 4.3, 3.1, 2.6, 1.4, 2.11, 1.45, 2.69, 3.78, 4.85, 5.26, 6.47, 8.69, 7.89, 9.32, 1.1])
+X_testing = np.asarray([6.52, 5.5, 4.3, 3.1, 5.71, 8.16, 7.71, 6.71])
+y_testing = np.asarray([7.23, 6.54, 4.54, 3.36,7.21, 6.52, 5.5, 4.3 ])
+
+x1 = tf.contrib.learn.io.numpy_input_fn({"X":X_training}, y_training, batch_size=5, num_epochs=100)
+y1 = tf.contrib.learn.io.numpy_input_fn({"X":X_testing}, y_testing)
+
+predict.fit(input_fn=x1)
+Weight = predict.get_variable_value('linear/X/weight')[0][0]
+bias = predict.get_variable_value('linear/bias_weight')[0]
+print("W:", Weight, "\tb:", bias)
+
+x2 = predict.evaluate(input_fn=x1)['loss']
+y2 = predict.evaluate(input_fn=y1)['loss']
+print("result of training loss:", x2)
+print("result of testing loss:", y2)
+
+#output
+W: 0.21986248 	b: 3.5575247
+result of training loss: 9.008288
+result of testing loss: 2.0800948
+------------------------------------------------------------------------------------------------
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plot
+
+X_training = np.asarray([2.1, 2.5, 1.75, 3.2, 5.71, 8.16, 7.71, 6.71, 5.23, 2.52, 6.41, 6.71, 8.91, 7.23, 6.54, 4.54, 3.36, 2.11, 9.12, 7.6])
+y_training = np.asarray([9.46, 8.3, 7.21, 6.52, 5.5, 4.3, 3.1, 2.6, 1.4, 2.11, 1.45, 2.69, 3.78, 4.85, 5.26, 6.47, 8.69, 7.89, 9.32, 1.1])
+n_samples = X_training.shape[0]
+
+X_testing = np.asarray([6.52, 5.5, 4.3, 3.1, 5.71, 8.16, 7.71, 6.71])
+y_testing = np.asarray([7.23, 6.54, 4.54, 3.36, 7.21, 6.52, 5.5, 4.3])
+
+P = tf.placeholder(tf.float32)
+Q = tf.placeholder(tf.float32)
+
+Weight = tf.Variable(np.random.randn(), name="weight")
+bias = tf.Variable(np.random.randn(), name="bias")
+
+lm = Weight * P + bias
+val = tf.reduce_sum(tf.square(lm - Q)) / (2 * n_samples)
+optimization = tf.train.GradientDescentOptimizer(0.01).minimize(val)
+gvi = tf.global_variables_initializer()
+
+with tf.Session() as session:
+    session.run(gvi)
+    for epoch in range(1500):
+        session.run(optimization, feed_dict={P: X_training, Q: y_training})
+        if (epoch + 1) % 150 == 0:
+            c = session.run(val, feed_dict={P: X_training, Q: y_training})
+            print("Epoch:{0:6} \t Cost:{1:10.4} \t W:{2:6.4} \t b:{3:6.4}".
+                  format(epoch + 1, c, session.run(Weight), session.run(bias)))
+
+    print("Completed Optimization")
+    training_cost = session.run(val, feed_dict={P: X_training, Q: y_training})
+    print("Final training cost:", training_cost, "Weight:", session.run(Weight), "b:",session.run(bias), '\n')
+
+    plot.plot(X_training, y_training, 'ro', label='Actual Data')
+    plot.plot(X_training, session.run(Weight) * X_training + session.run(bias), label='line Fitted ')
+    plot.legend()
+    plot.show()
+    testing_cost = session.run(tf.reduce_sum(tf.square(lm - Q)) / (2 * X_testing.shape[0]), feed_dict={P: X_testing, Q: y_testing})
+    print("Cost of testing:", testing_cost)
+    print("difference of Absolute mean square loss :", abs(training_cost - testing_cost))
+    plot.plot(X_testing, y_testing, 'bo', label='testdata')
+    plot.plot(X_training, session.run(Weight) * X_training + session.run(bias), label='line Fitted')
+    plot.legend()
+    plot.show()
+
+#output
+Epoch:   150 	 Cost:     6.036 	 W:0.4507 	 b:  1.68
+Epoch:   300 	 Cost:     4.854 	 W:0.2467 	 b: 2.993
+Epoch:   450 	 Cost:     4.124 	 W:0.08632 	 b: 4.025
+Epoch:   600 	 Cost:     3.672 	 W:-0.03979 	 b: 4.837
+Epoch:   750 	 Cost:     3.393 	 W:-0.139 	 b: 5.475
+Epoch:   900 	 Cost:      3.22 	 W:-0.2169 	 b: 5.977
+Epoch:  1050 	 Cost:     3.113 	 W:-0.2782 	 b: 6.372
+Epoch:  1200 	 Cost:     3.047 	 W:-0.3264 	 b: 6.682
+Epoch:  1350 	 Cost:     3.006 	 W:-0.3643 	 b: 6.926
+Epoch:  1500 	 Cost:     2.981 	 W:-0.3941 	 b: 7.118
+Completed Optimization
+Final training cost: 2.9811952 Weight: -0.39414692 b: 7.11771 
+
+Cost of testing: 1.9579754
+difference of Absolute mean square loss : 1.0232198

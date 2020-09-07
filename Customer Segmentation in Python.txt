@@ -1,0 +1,78 @@
+#Customer Segmentation in Python
+
+#Clustering
+import numpy as ny;
+import matplotlib.pyplot as plot
+import pandas as pd
+import seaborn as sns
+
+#importing data set
+datainput = pd.read_csv('Mall_Customers.csv')
+print(datainput[0:5],"\n")
+
+sns.countplot(x='Genre', data=datainput);
+plot.title('Gender separation');
+plot.show()
+
+# Create data sets by gender
+males = datainput[datainput['Genre'] == 'Male']
+females = datainput[datainput['Genre'] == 'Female']
+
+print("male spending value")
+print(males['Spending Score (1-100)'].mean())
+print("female spending value")
+print(females['Spending Score (1-100)'].mean(),"\n")
+
+#Considering Annual Income (k$),Spending Score (1-100)
+X=datainput.iloc[:,[3,4]].values
+print(X[0:5])
+
+#using elbow method
+from sklearn.cluster import KMeans
+wcss=[]
+for i in range(1,11):
+    km=KMeans(n_clusters=i,init='k-means++',max_iter=300,n_init=10,random_state=0)
+    km.fit(X)
+    wcss.append(km.inertia_)
+#ploting elbow graph
+plot.plot(range(1,11),wcss)
+plot.title('Elbow Method')
+plot.xlabel("clusters")
+plot.ylabel("WCSS")
+plot.show()
+
+#Applying kmeans Alg
+kmeans=KMeans(n_clusters=5,init='k-means++',max_iter=300,n_init=10,random_state=0)
+ymeans=kmeans.fit_predict(X)
+#visualising
+plot.scatter(X[ymeans==0,0],X[ymeans==0,1],s=100,c='brown',label='1st cluster')
+plot.scatter(X[ymeans==1,0],X[ymeans==1,1],s=100,c='darkorchid',label='2nd cluster')
+plot.scatter(X[ymeans==2,0],X[ymeans==2,1],s=100,c='orange',label='3rd cluster')
+plot.scatter(X[ymeans==3,0],X[ymeans==3,1],s=100,c='pink',label='4th cluster')
+plot.scatter(X[ymeans==4,0],X[ymeans==4,1],s=100,c='wheat',label='5th cluster')
+plot.scatter(kmeans.cluster_centers_[:,0],kmeans.cluster_centers_[:,1],s=100,c='black',label='Centroids')
+plot.title("Customer Segmentation -Mall customers")
+plot.xlabel("Total Income")
+plot.ylabel("Expenditure")
+plot.legend()
+plot.show()
+
+#output
+
+   CustomerID   Genre  Age  Annual Income (k$)  Spending Score (1-100)
+0           1    Male   19                  15                      39
+1           2    Male   21                  15                      81
+2           3  Female   20                  16                       6
+3           4  Female   23                  16                      77
+4           5  Female   31                  17                      40 
+
+male spending value
+48.51136363636363
+female spending value
+51.526785714285715 
+
+[[15 39]
+ [15 81]
+ [16  6]
+ [16 77]
+ [17 40]]
