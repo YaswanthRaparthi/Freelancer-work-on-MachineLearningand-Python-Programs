@@ -1,0 +1,37 @@
+#Calculate difference between adjacent elements in given list using Python
+
+X = [25, 50, 100, 600, 1000]
+X1= [2, 15, 29, 45, 63, 97]
+X2= [30, 77, 23, 87, 200, 45]
+print("Given list is: ", str(X))
+# Calculating difference list
+adjacent = []
+#Using zip()
+for i, j in zip(X[0::], X[1::]):
+    adjacent.append(j - i)
+print("difference between adjacent elements in given list is: ", str(adjacent))
+
+print("\nGiven list is: ", str(X1))
+# Calculating difference list
+adjacent1 = []
+#Using Naive approach
+for m in range(1, len(X1)):
+    adjacent1.append(X1[m] - X1[m - 1])
+print("difference between adjacent elements in given list is: ", str(adjacent1))
+
+print("\nGiven list is: ", str(X2))
+# Calculating difference list
+adjacent2 = []
+for n in range(1, len(X2)):
+    adjacent2.append(X2[n] - X2[n-1])
+print("difference between adjacent elements in given list is: ", str(adjacent2))
+
+#output
+Given list is:  [25, 50, 100, 600, 1000]
+difference between adjacent elements in given list is:  [25, 50, 500, 400]
+
+Given list is:  [2, 15, 29, 45, 63, 97]
+difference between adjacent elements in given list is:  [13, 14, 16, 18, 34]
+
+Given list is:  [30, 77, 23, 87, 200, 45]
+difference between adjacent elements in given list is:  [47, -54, 64, 113, -155]
